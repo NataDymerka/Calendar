@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+  </head>
+  <body>
+    <header class="header d-flex justify-content-between">
+      <div class="title flex-grow-1">Calendar</div>
+      <form action="members">
+        <select name="members" id="members" class="dropdown">
+          <option value="all">All members</option>
+          <option value="Vasyl">Vasyl</option>
+          <option value="Olena">Olena</option>
+          <option value="Petro">Petro</option>
+        </select>
+      </form>
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-light new-event-btn"
+        data-toggle="modal"
+        data-target="#newEvent"
+      >
+        New Event +
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" data-toggle="modal" id="newEvent" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+              <p class="event-failed"></p>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="modal-form" action="#" method="POST">
+                <label class="col-5" for="event-name">Name of the event</label>
+                <input
+                  class="col-5"
+                  type="text"
+                  id="event-name"
+                  placeholder="your meeting's name"
+                  required
+                />
+                <br />
+                <label class="col-5" for="participants">Participants</label>
+                <select
+                  class="col-5"
+                  name="participants"
+                  id="participants"
+                  multiple
+                  size="3"
+                  required
+                >
+                  <option value="Vasyl">Vasyl</option>
+                  <option value="Olena">Olena</option>
+                  <option value="Petro">Petro</option>
+                </select>
+                <br />
+                <label class="col-5" for="day">Day</label>
+                <select class="col-5" name="day" id="day" required>
+                  <option value="1">Monday</option>
+                  <option value="2">Tuesday</option>
+                  <option value="3">Wednesday</option>
+                  <option value="4">Thusday</option>
+                  <option value="5">Friday</option>
+                </select>
+                <br />
+                <label class="col-5" for="time">Time</label>
+                <select class="col-5" name="time" id="time" required>
+                  <option value="1">10:00</option>
+                  <option value="2">11:00</option>
+                  <option value="3">12:00</option>
+                  <option value="4">13:00</option>
+                  <option value="5">14:00</option>
+                  <option value="6">15:00</option>
+                  <option value="7">16:00</option>
+                  <option value="8">17:00</option>
+                  <option value="9">18:00</option>
+                </select>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <div class="btns d-flex justify-content-around">
+                <button
+                  class="btn btn-light new-event-btn"
+                  data-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <input
+                  type="button"
+                  value="Create"
+                  class="btn btn-light new-event-btn event-create"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section id="calendar">
+    </section>
+  </body>
+</html>

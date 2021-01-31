@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section id="newEventCreate">
+      <div class="container">
+        <form action="#">
+          <label for="event-name">Name of the event</label>
+          <input type="text" id="event-name" />
+          <br />
+          <label for="participants">Participants</label>
+          <select name="participants" id="participants" class="selectpicker">
+            <option value="vasyl">Vasyl</option>
+            <option value="olena">Olena</option>
+            <option value="petro">Petro</option>
+          </select>
+          <br />
+          <label for="day">Day</label>
+          <select name="day" id="day">
+            <option value="mon">Monday</option>
+            <option value="tue">Tuesday</option>
+            <option value="wed">Wednesday</option>
+            <option value="thu">Thusday</option>
+            <option value="rfi">Frida</option>
+          </select>
+          <br />
+          <label for="time">Time</label>
+          <input
+            class="dropdown"
+            type="time"
+            id="time"
+            name="time"
+            min="10:00"
+            max="18:00"
+          /><br />
+        </form>
+      </div>
+      <div class="btns d-flex flex-shrink-1 justify-content-end">
+        <button class="btn btn-light new-event-btn">Cancel</button>
+        <input
+          type="submit"
+          value="Create"
+          class="btn btn-light new-event-btn"
+        />
+      </div>
+    </section>
+  </body>
+</html>
