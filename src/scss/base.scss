@@ -11,8 +11,8 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-   padding-left: 10%;
-   padding-right: 10%; 
+  padding-left: 10%;
+  padding-right: 10%;
 }
 .title {
   font-size: 2rem;
@@ -32,7 +32,7 @@ div p {
 }
 
 .heading {
-  background-color: palegoldenrod;
+  background-color: #fad586;
 }
 .new-event-btn {
   margin: 20px 0 20px 40px;
@@ -41,7 +41,7 @@ div p {
   font-weight: 600;
 }
 .new-event-btn:hover {
-  background-color: palegoldenrod;
+  background-color: #fad586;
 }
 
 #members {
@@ -86,10 +86,23 @@ input.col-5 {
   margin: 0;
   text-align: center;
 }
-
+.event {
+  background-color: #a6f0c6;
+}
 .event-delete {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   position: relative;
   top: -35px;
+}
+.warning {
+  background-color: #ffb3b3;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.hovered {
+  background-color: #bbdfc8;
 }

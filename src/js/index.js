@@ -10,6 +10,9 @@ const modal = document.querySelector('.modal');
 const modalHeader = document.querySelector('.modal-header');
 const eventFailed = document.querySelector('.event-failed');
 const chooseEventMember = document.querySelector('#members');
+let iDragged;
+let jDragged;
+
 
 let allEventsData = new Array(10);
 for (let i = 0; i < 10; i++) {
@@ -45,23 +48,52 @@ drawCalendar();
 const handleWarrning = function (e) {
     if (allEventsData[eventTime.value][eventDay.value] !== null) {
         eventFailed.innerHTML = "Failed to create an event. Time slot is already booked."
-        modalHeader.style.backgroundColor = "#ffb3b3";
+        modalHeader.classList.add('warning');
     } else {
         eventFailed.innerHTML = ""
-        modalHeader.style.backgroundColor = "#fff";
+        modalHeader.classList.remove('warning');
     }
 };
 
 const drawEvent = function (arr) {
+    calendar.innerHTML = '';
+    drawCalendar();
     for (let i = 1; i < 10; i++) {
         for (let j = 1; j < 6; j++) {
             if (arr[i][j] == null) {
                 let cell = calendar.querySelectorAll('.row')[i].children[j];
                 cell.innerHTML = '';
-                cell.style.backgroundColor = '#fff';
+                cell.classList.remove('event');
+
+                //drag and drop
+                cell.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                    console.log('over');
+                });
+                cell.addEventListener('dragenter', function () {
+                    this.classList.add('hovered');
+                    console.log('enter');
+                });
+                cell.addEventListener('dragleave', function () {
+                    this.classList.remove('hovered');
+
+                    console.log('leave');
+                });
+                cell.addEventListener('drop', function () {
+                    arr[i][j] = arr[iDragged][jDragged];
+                    arr[iDragged][jDragged] = null;
+                    this.classList.remove('hovered');
+                    console.log(arr);
+                    drawEvent(arr);
+                    localStorage.setItem('event', JSON.stringify(arr));
+
+                });
+
             } else {
                 let cell = calendar.querySelectorAll('.row')[i].children[j];
                 cell.innerHTML = '';
+                cell.classList.add('event');
+
                 let cellText = document.createElement('p');
                 let btn = document.createElement('button');
                 btn.classList.add('event-delete', 'close');
@@ -73,11 +105,22 @@ const drawEvent = function (arr) {
                 cell.append(btn);
 
                 cellText.innerHTML = `${arr[i][j].eventName} <br> ${arr[i][j].participants}`;
-                cell.style.backgroundColor = "#aaff80";
+                //drag and drop
                 cell.setAttribute('draggable', true);
-                // создать кнопку, ивент листенер, функуия удаления и перерисовки.
-                // переписать json
+                cell.addEventListener('dragstart', function (e) {
+                    setTimeout(() => {
+                        this.classList.add('hide');
+                    }, 0)
+                    iDragged = i;
+                    jDragged = j;
+                    console.log(i, j);
+                }
+                );
+                cell.addEventListener('dragend', function () {
+                    this.classList.remove('hide');
+                });
 
+                //deletion of the event
                 btn.addEventListener('click', function (e) {
                     console.log(arr[i][j]);
                     if (confirm(`Are you sure you want to delete "${arr[i][j].eventName}" event?`)) {
@@ -85,8 +128,7 @@ const drawEvent = function (arr) {
                         arr[i][j] = null;
                         cell.innerHTML = '';
                         cell.style.backgroundColor = '#fff';
-                        let localStorageChange = JSON.stringify(arr);
-                        localStorage.setItem('event', localStorageChange);
+                        localStorage.setItem('event', JSON.stringify(arr));
 
                     }
                 });
@@ -97,8 +139,7 @@ const drawEvent = function (arr) {
 
 
 //draw data from the local storage
-let savedData = localStorage.getItem('event');
-allEventsData = JSON.parse(savedData);
+allEventsData = JSON.parse(localStorage.getItem('event'));
 
 drawEvent(allEventsData);
 
@@ -128,14 +169,12 @@ const createEvent = function (e) {
         allEventsData[data.eventTime][data.eventDay] = data;
     } else {
         eventFailed.innerHTML = "Failed to create an event. Time slot is already booked."
-        modalHeader.style.backgroundColor = "#ffb3b3";
-        console.log('not mull');
+        modalHeader.classList.add('warning');
         return;
     }
 
     //set data to the local storage
-    let localStorageData = JSON.stringify(allEventsData);
-    localStorage.setItem('event', localStorageData);
+    localStorage.setItem('event', JSON.stringify(allEventsData));
 
 
     drawEvent(allEventsData);
@@ -148,27 +187,27 @@ console.log(allEventsData);
 
 const selectMember = function () {
 
-    let savedData = localStorage.getItem('event');
-    allEventsData = JSON.parse(savedData);
+    allEventsData = JSON.parse(localStorage.getItem('event'));
     let chosenMember = chooseEventMember.value;
     // console.log(chosenMember);
 
     if (chosenMember !== 'all') {
-    for (let i = 1; i < 10; i++) {
-        for (let j = 1; j < 6; j++) {
-            if (allEventsData[i][j] !== null) {
-                // console.log(allEventsData[i][j].participants);
-                // console.log(allEventsData[i][j].participants.includes(chosenMember));
+        for (let i = 1; i < 10; i++) {
+            for (let j = 1; j < 6; j++) {
+                if (allEventsData[i][j] !== null) {
+                    // console.log(allEventsData[i][j].participants);
+                    // console.log(allEventsData[i][j].participants.includes(chosenMember));
 
-                if (!allEventsData[i][j].participants.includes(chosenMember)) {
-                    allEventsData[i][j] = null;                
+                    if (!allEventsData[i][j].participants.includes(chosenMember)) {
+                        allEventsData[i][j] = null;
+                    }
                 }
-            }
 
+            }
         }
     }
-}
     drawEvent(allEventsData);
 }
 
 chooseEventMember.addEventListener('change', selectMember);
+
