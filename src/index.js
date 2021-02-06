@@ -1,8 +1,7 @@
-import 'bootstrap'
+import 'bootstrap';
 
 // JS
-import './js/'
+import './js';
 
 // SCSS
-import './scss/main.scss'
-
+import './scss/main.scss';
